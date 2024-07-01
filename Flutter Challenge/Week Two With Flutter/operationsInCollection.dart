@@ -5,7 +5,7 @@ void main(){
 bool login = true;
 
 var auth = ['Home','Plant', if (login) 'outlet'];
-
+print(auth);
 
 // if case
 

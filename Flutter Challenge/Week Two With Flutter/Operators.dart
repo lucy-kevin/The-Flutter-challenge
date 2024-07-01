@@ -43,7 +43,7 @@ int age = 20;
 //is operator is used to check the object if it is of a certain type
 String name =  "Kevin";
 if(name is String){
-  print("It is a String");
+  print("It is a String $name");
 }else{
   print("Not a  String");
 }

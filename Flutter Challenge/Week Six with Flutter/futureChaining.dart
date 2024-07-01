@@ -1,7 +1,10 @@
-import '../Week Five with Flutter/classes/mixin/mixin2.dart';
 
 void main(List<String> args) async {
-  final length = await calculateLength(await getfullLength());
+  // final length = await calculateLength(await getfullLength());
+  // print(length);
+ final length =await getfullLength().then(
+    (value) => calculateLength(value,)
+  );
   print(length);
   
 }
