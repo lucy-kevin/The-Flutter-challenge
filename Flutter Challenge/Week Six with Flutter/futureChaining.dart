@@ -3,7 +3,7 @@ void main(List<String> args) async {
   // final length = await calculateLength(await getfullLength());
   // print(length);
  final length =await getfullLength().then(
-    (value) => calculateLength(value,)
+    (value) => calculateLength(value)
   );
   print(length);
   
