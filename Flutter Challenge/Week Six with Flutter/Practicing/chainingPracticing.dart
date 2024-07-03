@@ -23,13 +23,13 @@ Future<String> fetchUserID() async => Future.delayed(
 Future<Map<String, String>> fetchUserDetails(String id) async{
   return {"Id": id,"Name": "Aseru Kevin"};
 }
-Stream<String> getLetters(String numbers) async*{
-  for (int i = 0; i<numbers.length; i++ ){
+Stream<String> getLetters(String wordCount) async*{
+  for (int i = 0; i<wordCount.length; i++ ){
      await Future.delayed(
       Duration(seconds: 1),
       
     );
-    yield numbers[i];
+    yield wordCount[i];
   }
 }
 
