@@ -1,3 +1,4 @@
+//this is like chaining Streams
 void main(List<String> args) async {
 await for(final words in getWord().asyncExpand((event) => displayword(event))){
 print(words);
