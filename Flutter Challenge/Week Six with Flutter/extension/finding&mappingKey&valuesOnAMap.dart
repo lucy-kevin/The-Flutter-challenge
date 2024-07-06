@@ -5,7 +5,8 @@ const json ={
 void main(List<String> args) {
   final String? ageAsString = json.find<int>("age", (int age) => age.toString(),);
   print(ageAsString);
-  
+  final String? name = json.find("name", (String name) => name.toString(),);
+  print(name);
 }
 extension Find<K, V, R> on Map<K, V>{
   R? find<T>(
