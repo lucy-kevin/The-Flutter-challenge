@@ -1,5 +1,5 @@
 # The-Flutter-challenge
-=======
+
 # Welcome to My Flutter 100 days Challenge 🚀
 
 Embark with me on an exhilarating journey through 100 days of Flutter mastery, starting with the foundational language of Dart. My name is **Aseru Kevin Ziyada**, and I'm passionate about software development, particularly in the realm of mobile app creation. Join me as I dive deep into Flutter, the cutting-edge framework for building beautiful, natively compiled applications for mobile, web, and desktop—all from a single codebase.
@@ -11,4 +11,3 @@ So, grab your IDE, charge up your curiosity, and let's flutter our way to master
 Ready to join the adventure? 
 ## Let's code! 💻✨
 
->>>>>>> dd843a8be5cf98210e594974559c230c621867cc
