@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # The-Flutter-challenge
 =======
 # Welcome to My Flutter 100 days Challenge 🚀
