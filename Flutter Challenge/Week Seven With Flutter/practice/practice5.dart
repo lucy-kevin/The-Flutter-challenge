@@ -2,11 +2,11 @@
 
 void main(List<String> args) {
  final marksMax = [34,67,76,34].max;
- final marksMin = [34,67,76,67,34].elements(67);
+ final marksthere = [34,67,76,67,34].elements(67);
  final marksCount = [34,67,76,67,34].counting(67);
  print("Number COunt: $marksCount");
  print(marksMax);
- print(marksMin);
+ print(marksthere);
  String name = "Kevin".reverse();
  print(name);
 }
