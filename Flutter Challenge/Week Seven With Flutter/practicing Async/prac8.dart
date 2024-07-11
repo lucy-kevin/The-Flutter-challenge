@@ -1,7 +1,36 @@
 import 'dart:async';
+void main(List<String> args) async {
+  try {
+    await for (final name in names().withTimeoutBtwnEvents(
+      const Duration(seconds: 3),
+    )){
+      print(name);
+    }
+    
+  } on TimeoutBetweenEventException catch (e, stackTrace) {
 
-void main(List<String> args) {
+    print(e);
+    print(stackTrace);
+  }
   
+}
+Stream<String> names() async*{
+  await Future.delayed(
+    Duration(seconds: 2),
+  );
+  yield "Kevin";
+  await Future.delayed(
+    Duration(seconds: 2),
+  );
+  yield "Axcel";
+  await Future.delayed(
+    Duration(seconds: 4),
+  );
+  yield "Melady";
+
+}
+extension WithTimeoutBtnEvents<T> on Stream<T>{
+  Stream<T> withTimeoutBtwnEvents(Duration duration) => transform(timeOutBtwn(duration: duration,));
 }
 
 
@@ -22,7 +51,9 @@ class timeOutBtwn<E> extends StreamTransformerBase<E, E>{
         subscription = stream.listen((data) {
           timer?.cancel();
           timer = Timer.periodic(duration, (timer) {
-            controller?.addError("error");
+            controller?.addError(
+              TimeoutBetweenEventException("Timeout $duration")
+            );
            });
            controller?.add(data);
           
