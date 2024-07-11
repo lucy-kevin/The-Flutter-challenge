@@ -20,6 +20,7 @@ void main(List<String> args) async{
  );
   extension on Stream<String>{
     Stream<String> get capitalized => transform(ToUpperCase());
+    //Capitalize with an in built map method.
     Stream<String> get capitalizedUsingMao => map((name) => name.toUpperCase(),);
 
   }
