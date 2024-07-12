@@ -2,61 +2,54 @@ import 'dart:isolate';
 import 'dart:io';
 import 'dart:convert';
 
-Future<void> main(List<String> args) async {
-  do{
-    stdout.write('Say something: ');
+void main(List<String> args) async {
+  do {
+    stdout.write('Say something:..\n');
     final line = stdin.readLineSync(encoding: utf8);
-    switch (line?.trim().toLowerCase()){
-      case null:
-        continue;
+    if (line == null) {
+      continue; // Handle null input gracefully
+    }
+    switch (line.trim().toLowerCase()) {
       case 'exit':
         exit(0);
       default:
-        final msg = await getMessages(line!);
+        final msg = await getMessages(line);
         print(msg);
     }
-  }while(true);
+  } while (true);
 }
-Future<String> getMessages(String forGreeting) async{
+
+Future<String> getMessages(String forGreeting) async {
   final rp = ReceivePort();
-  Isolate.spawn(
-    _communicator, 
-    rp.sendPort);
-    final broadcastRp = rp.asBroadcastStream();
-    final SendPort communicatorSendPort = await broadcastRp.first;
-    communicatorSendPort.send(forGreeting);
+  await Isolate.spawn(_communicator, rp.sendPort);
+  final broadcastRp = rp.asBroadcastStream();
+  final SendPort communicatorSendPort = await broadcastRp.first as SendPort;
+  communicatorSendPort.send(forGreeting);
 
-return broadcastRp
-.takeWhile((element) => element is String)
-.cast<String>()
-.take(1)
-.first;
+  return broadcastRp
+      .skip(1) // Skip the first message (which is the SendPort)
+      .takeWhile((element) => element is String)
+      .cast<String>()
+      .first;
 }
 
-
-void _communicator(SendPort sp) async{
+void _communicator(SendPort sp) async {
   final rp = ReceivePort();
   sp.send(rp.sendPort);
 
-  final messages = rp
-  .takeWhile((element) => element is String)
-  .cast<String>();
-
-  await for (final message in messages){
-    for (final entry in messagesAndResponses.entries){
-      if (entry.key.trim().toLowerCase() == message.trim().toLowerCase()){
-        sp.send(entry.value);
-        continue;
-      }
-
+  await for (final message in rp) {
+    if (message is String) {
+      final response = messagesAndResponses[message.trim().toLowerCase()] ??
+          "I have no response to that!";
+      sp.send(response);
     }
-    sp.send("I have no response to that!");
   }
 }
+
 const messagesAndResponses = {
-  '': 'Ask me a question Like "How are you?"',
-  'Hello': "Hi",
-  'How are you?': 'Fine',
-  "What are you doing?":"Learning Isolates in dart",
-  'Are you having fun?': "Yeah sure"
+  '': 'Ask me a question like "How are you?"',
+  'hello': "Hi",
+  'how are you?': 'Fine',
+  "what are you doing?": "Learning Isolates in Dart",
+  'are you having fun?': "Yeah sure"
 };
