@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:isolate';
 import 'dart:io';
 import 'dart:convert';
@@ -27,22 +26,12 @@ Future<String> getMessages(String forGreeting) async {
   final SendPort communicatorSendPort = await broadcastRp.first as SendPort;
   communicatorSendPort.send(forGreeting);
 
-  final completer = Completer<String>();
-  broadcastRp.listen((message) {
-    if (message is String) {
-      completer.complete(message);
-    }
-  });
-  return completer.future;
+  return broadcastRp
+      .skip(1) // Skip the first message (which is the SendPort)
+      .takeWhile((element) => element is String)
+      .cast<String>()
+      .first;
 }
-
-const messagesAndResponses = {
-  '': 'Ask me a question like "How are you?"',
-  'hello': "Hi",
-  'how are you?': 'Fine',
-  "what are you doing?": "Learning Isolates in Dart",
-  'are you having fun?': "Yeah sure"
-};
 
 void _communicator(SendPort sp) async {
   final rp = ReceivePort();
@@ -56,3 +45,11 @@ void _communicator(SendPort sp) async {
     }
   }
 }
+
+const messagesAndResponses = {
+  '': 'Ask me a question like "How are you?"',
+  'hello': "Hi",
+  'how are you?': 'Fine',
+  "what are you doing?": "Learning Isolates in Dart",
+  'are you having fun?': "Yeah sure"
+};
