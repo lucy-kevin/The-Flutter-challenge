@@ -4,9 +4,9 @@ import 'dart:convert';
 
 
 void main(List<String> args)async{
-  stdout.write("Say something...\n");
+  
   do{
-    
+    stdout.write("Say something:");
     final line = stdin.readLineSync(encoding: utf8);
 
     switch(line?.trim().toLowerCase()){
