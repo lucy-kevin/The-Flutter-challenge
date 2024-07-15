@@ -16,7 +16,7 @@ void main(List<String> args)async{
         exit(0);
       default:
       final msg = await getMessages(line!);
-      print(msg);
+      print("bot: $msg");
 
     }
   }while(true);
@@ -25,14 +25,16 @@ void main(List<String> args)async{
 Future<String> getMessages(String forGreeting) async{
   final rp =ReceivePort();
   Isolate
-  .spawn(_communicator, rp.sendPort);
+  .spawn(
+    _communicator, 
+    rp.sendPort);
   final broadcast = rp.asBroadcastStream();
   final SendPort communicatorSendPort =await broadcast.first;
   communicatorSendPort.send(forGreeting);
 
 
   return broadcast
-                   .takeWhile((test) => test is String)
+                    .takeWhile((test) => test is String)
                     .cast<String>()
                     .take(1)
                     .first;
