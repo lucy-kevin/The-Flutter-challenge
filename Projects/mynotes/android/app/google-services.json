@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "800512881445",
+    "project_id": "mynotes-kevin-app",
+    "storage_bucket": "mynotes-kevin-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800512881445:android:3d753fc1db10fc2004e0cc",
+        "android_client_info": {
+          "package_name": "com.kevin.first"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhLJG4fLHQoDiDFBngJ6xZ1ONQjpKbZFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800512881445:android:b3aacd301f841e6504e0cc",
+        "android_client_info": {
+          "package_name": "com.learnsomething.mynotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhLJG4fLHQoDiDFBngJ6xZ1ONQjpKbZFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800512881445:android:f347c4b18e12176a04e0cc",
+        "android_client_info": {
+          "package_name": "com.mynotes.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhLJG4fLHQoDiDFBngJ6xZ1ONQjpKbZFA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
