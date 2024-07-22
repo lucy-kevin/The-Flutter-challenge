@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:prac/firebase_options.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -8,19 +13,20 @@ void main() {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      home: const HomePage(),
        ));
 }
 
 
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
+class _HomePageState extends State<HomePage> {
   late final TextEditingController _email;
   late final TextEditingController _password;
 
@@ -30,6 +36,14 @@ class _MyWidgetState extends State<MyWidget> {
     _password = TextEditingController();
     super.initState();
   }
+  void dispose(){
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+
+  }
+  
+  
   
   @override
   Widget build(BuildContext context) {
@@ -37,9 +51,18 @@ class _MyWidgetState extends State<MyWidget> {
       appBar: AppBar(
         title:const Text("Register"),
       ),
-      body: Column(
+      body: FutureBuilder(
+        future: Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ), 
+        builder:(context, snapshot) {
+          switch(snapshot.connectionState){
+            
+            case ConnectionState.done:
+             return       Column(
         children: [
-          const TextField(
+         TextField(
+            controller: _email,
             autocorrect: false,
             enableSuggestions: false,
             keyboardType: TextInputType.emailAddress,
@@ -48,7 +71,8 @@ class _MyWidgetState extends State<MyWidget> {
             ),
 
           ),
-          const TextField(
+          TextField(
+            controller: _password,
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
@@ -57,11 +81,24 @@ class _MyWidgetState extends State<MyWidget> {
             ),
           ),
           TextButton(
-            onPressed: (){},
+            onPressed: ()async{
+              final email = _email.text;
+              final password = _password.text;
+
+              final userCredentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+              print(userCredentials);
+            },
             child: const Text("Register"),
           ),
         ],
-      ),
+      );
+      default:
+        return const Text("Loading...");
+              // TODO: Handle this case.
+          }
+        },)
+      
+
     );
   }
 }
