@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import "package:mynotes/firebase_options.dart";
+import 'package:mynotes/firebase_options.dart';
+import 'package:mynotes/views/login_view.dart';
 
 
 void main() {
@@ -10,42 +11,24 @@ void main() {
     
       title: 'Flutter Demo',
       theme: ThemeData(
-        
+        primarySwatch: Colors.blue,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
       home: const HomePage(),
     ));
 }
-class HomePage extends StatefulWidget {
-  const HomePage ({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  late final TextEditingController _email;
-  late final TextEditingController _password;
-
-  void initState(){
-    _email = TextEditingController();
-    _password = TextEditingController();
-    super.initState();
-  }
-  @override
-  void dispose() {
-    _email.dispose();
-    _password.dispose();
-    super.dispose();
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(
-        title: const Text("Register"),
+        title: const Text("Home"),
+
+        backgroundColor: Colors.blue,
+        
         
         ),
         body: FutureBuilder(
@@ -58,43 +41,14 @@ class _HomePageState extends State<HomePage> {
             switch(snapshot.connectionState){
               
               case ConnectionState.done:
-                 return Column(
-                 children: [
-               TextField(
-                controller: _email,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: "Enter your Email",
-                ),
-          
-              ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: "Enter your Password",
-                  
-                ),
-              ),
-              TextButton(
-                onPressed: () async{
-                  
-                  final email = _email.text;
-                  final password = _password.text;
-                  
-                
-                  final userCredential = 
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-                  print(userCredential);
-                }, 
-                child: const Text("Register"),          
-              ),
-            ],
-          );
+              final user = FirebaseAuth.instance.currentUser;
+
+              if(user?.emailVerified??false){
+                print("You are a verified user");
+              }else{
+                print("Verify your email first");
+              }
+                 return const Text("Loading...");
 
           default:
             return const Text("Loading");
