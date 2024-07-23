@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
           switch(snapshot.connectionState){
             
             case ConnectionState.done:
-             return       Column(
+             return Column(
         children: [
          TextField(
             controller: _email,
