@@ -63,23 +63,39 @@ class _LoginViewState extends State<LoginView> {
                     try{
                     
                   
-                    final userCredential = 
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-                   devtool.log(userCredential.toString());
-                   Navigator.of(context).pushNamedAndRemoveUntil(notesRoute ,(route) => false,);
-                    } on FirebaseAuthException catch (e){
+                final userCredential = 
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: email, 
+                  password: password);
+
+                devtool.log(userCredential.toString());
+                   
+                Navigator.of(context).
+                   pushNamedAndRemoveUntil(
+                   notesRoute ,
+                   (route) => false,);
+                    
+                    
+                    
+                    } 
+                    on FirebaseAuthException catch (e){
                       if (e.code == "invalid-credential"){
-                         devtool.log("User not found");
+                         await showErrorDialog(context, "Invalid credentials");
                       }else if( e.code == "invalid-email"){
                        devtool.log("Invalid email Address");
+                        await showErrorDialog(context, "Invalid email Address");
                         
       
                       }else{
-                       devtool.log("Something wrong has happened");
-                       devtool.log(e.code);
+                       //devtool.log("Something wrong has happened");
+
+                       //devtool.log(e.code);
+                       await showErrorDialog(context, "Something went wrong: \n${e.code}");
                       }
                       
       
+                    } catch (e){
+                      await showErrorDialog(context, e.toString());
                     }
                    
                   }, 
@@ -95,6 +111,28 @@ class _LoginViewState extends State<LoginView> {
                   child: const Text("Not Registered yet? Register here"),)
               ],
             ),
-    );  
+    ); 
+
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+){
+  return showDialog(context: context, builder:(context ){
+    return AlertDialog(
+      title: const Text("An errors occurred"),
+      content: Text(text),
+      actions: [
+        TextButton(
+        onPressed: (){
+          Navigator.of(context).pop();
+        }, 
+        child: const Text("Ok")
+        )
+      ],
+
+    );
+  });
 }
