@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as devtool show log ;
 
 import 'package:mynotes/constants/route.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 class LoginView extends StatefulWidget {
   const LoginView ({Key? key}): super(key:key);
 
@@ -82,7 +83,7 @@ class _LoginViewState extends State<LoginView> {
                       if (e.code == "invalid-credential"){
                          await showErrorDialog(context, "Invalid credentials");
                       }else if( e.code == "invalid-email"){
-                       devtool.log("Invalid email Address");
+                       
                         await showErrorDialog(context, "Invalid email Address");
                         
       
@@ -114,25 +115,4 @@ class _LoginViewState extends State<LoginView> {
     ); 
 
   }
-}
-
-Future<void> showErrorDialog(
-  BuildContext context,
-  String text,
-){
-  return showDialog(context: context, builder:(context ){
-    return AlertDialog(
-      title: const Text("An errors occurred"),
-      content: Text(text),
-      actions: [
-        TextButton(
-        onPressed: (){
-          Navigator.of(context).pop();
-        }, 
-        child: const Text("Ok")
-        )
-      ],
-
-    );
-  });
 }

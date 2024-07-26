@@ -2,9 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:prac/firebase_options.dart';
+import 'package:prac/routes.dart';
+import 'package:prac/views/loginView.dart';
+import 'package:prac/views/registerView.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized;
   runApp(MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -13,91 +16,49 @@ void main() {
         useMaterial3: true,
       ),
       home: const HomePage(),
+      routes : {
+        Register_View: (context) => const RegisterView(),
+        Login_View : (context) => const LoginView(),
+
+      },
        ));
 }
-
-
-
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late final TextEditingController _email;
-  late final TextEditingController _password;
-
-  @override
-  void initState() {
-    _email = TextEditingController();
-    _password = TextEditingController();
-    super.initState();
-  }
-  void dispose(){
-    _email.dispose();
-    _password.dispose();
-    super.dispose();
-
-  }
-  
-  
-  
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:const Text("Register"),
-      ),
-      body: FutureBuilder(
+   
+      return FutureBuilder(
         future: Firebase.initializeApp(
           options: DefaultFirebaseOptions.currentPlatform,
-        ), 
-        builder:(context, snapshot) {
+        ),
+        builder: (context, snapshot) {
           switch(snapshot.connectionState){
             
             case ConnectionState.done:
-             return Column(
-        children: [
-         TextField(
-            controller: _email,
-            autocorrect: false,
-            enableSuggestions: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              hintText: "Enter Your email address here"
-            ),
-
-          ),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: InputDecoration(
-              hintText: "Enter your password here"
-            ),
-          ),
-          TextButton(
-            onPressed: ()async{
-              final email = _email.text;
-              final password = _password.text;
-
-              final userCredentials = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
-              print(userCredentials);
-            },
-            child: const Text("Register"),
-          ),
-        ],
-      );
-      default:
-        return const Text("Loading...");
-              // TODO: Handle this case.
-          }
-        },)
+            final user = FirebaseAuth.instance.currentUser;
+            if(user != null){
+              if(user.emailVerified){
+                return Text("Verified");
+              }else{
+                return Text("Not Verified");
+              }
+            } else {
+              return const RegisterView();
+            }
+            default:
+              return const CircularProgressIndicator();
+        }
+        // Add a return statement at the end
+        }
+          
+          
+        );
       
 
-    );
+    
   }
 }
+
+

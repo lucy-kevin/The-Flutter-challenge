@@ -1,3 +1,5 @@
+import 'dart:developer' show log;
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +46,9 @@ class HomePage extends StatelessWidget {
               final user = FirebaseAuth.instance.currentUser;
               if (user != null){
                 if (user.emailVerified){
+                  log("Email is verified");
                   return const NotesView();
-                  //print("Email is verified");
+                  
                 }else{
                   return const VerifyEmailView();
                   
@@ -53,6 +56,7 @@ class HomePage extends StatelessWidget {
 
               } else {
                 return const LoginView();
+                
               }
               // return const Text("Done");
 
