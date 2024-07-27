@@ -71,9 +71,7 @@ class _LoginViewState extends State<LoginView> {
               log(e.code);
               
             }
-
-
-            
+ 
           }, child: const Text("Login")),
           TextButton(onPressed: (){
             Navigator.of(context).pushNamedAndRemoveUntil(Register_View, (route)=>false);
