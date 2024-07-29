@@ -5,6 +5,8 @@ import 'package:flutter/widgets.dart';
 import 'package:prac/routes.dart';
 import 'dart:developer' show log;
 
+import 'package:prac/views/notes_view.dart';
+
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
 
@@ -62,6 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
             final userCredential =await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
             log("Loged in");
+            Navigator.of(context).pushNamedAndRemoveUntil(Notes_View, (route)=> false);
             } on FirebaseAuthException catch (e){
               if(e.code == "invalid-credential"){
                 log("invalid Credentials");
