@@ -63,39 +63,26 @@ class _LoginViewState extends State<LoginView> {
                     
                     final email = _email.text;
                     final password = _password.text;
-                    try{
-                      AuthService.firbase().logIn(email: email, password: password);
+                  try{
+                      await AuthService.firbase().logIn(
+                        email: email, 
+                        password: password);               
+                      final user = AuthService.firbase().currentUser;
 
-                    
-                  
-                
-
-                
-                final user = AuthService.firbase().currentUser;
-
-                if(user?.isEmailVerified ?? false){
-                  Navigator.of(context).
-                   pushNamedAndRemoveUntil(
-                   notesRoute ,
-                   (route) => false,);
-
-                  
-                }else{
-                  Navigator.of(context).pushNamed(verifyEmailRoute);
-                   
-                
-                    
-                } 
-                    
-                    } on InvalidCredentialsAuthException {
+                      if(user?.isEmailVerified ?? false){
+                         Navigator.of(context).
+                         pushNamedAndRemoveUntil(
+                         notesRoute ,
+                        (route) => false,);
+                     }else{
+                         Navigator.of(context).pushNamed(verifyEmailRoute);} 
+                  } on InvalidCredentialsAuthException {
                       await showErrorDialog(context, "Invalid credentials");
-                    }
-                    on InvalidEmailAuthException{
+                   }on InvalidEmailAuthException{
                       await showErrorDialog(context, "Invalid Email Address");
-                    }
-                    on GenericAuthException{
+                  }on GenericAuthException{
                       await showErrorDialog(context, "Authentication Error");
-                    }                   
+                  }                   
                   }, 
                   child: const Text("Login"),          
                 ),
