@@ -27,16 +27,24 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
   @override
   void dispose() {
     _notesService.close();
-    super.dispose();
+    super.dispose();         
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Main UI"),
+        title: const Text("Your Notes"),
         backgroundColor: Color.fromARGB(255, 102, 126, 45),
+        foregroundColor: Colors.white,
+        
         actions: [
+          IconButton(
+            onPressed: (){
+              Navigator.of(context).pushNamed(newNoteRoute);
+            }, 
+            icon: const Icon(Icons.add)
+            ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async{
               switch(value){
