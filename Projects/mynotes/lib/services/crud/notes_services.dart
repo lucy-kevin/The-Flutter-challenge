@@ -237,7 +237,7 @@ class NotesService{
       await db.execute(createUserTable);
 
       //create note table
-      await db.execute(createUserTable);
+      await db.execute(createNoteTable);
       await _cacheNotes();
 
     } on MissingPlatformDirectoryException{
@@ -321,7 +321,7 @@ const createUserTable = '''
       );
       ''';
 
-const createNoteTable= '''CREATE TABLE IF NOT EXISTS"note" (
+const createNoteTable= '''CREATE TABLE IF NOT EXISTS "note" (
 	    "id"	INTEGER NOT NULL,
 	    "user_id"	INTEGER NOT NULL,
 	    "text"	TEXT NOT NULL,

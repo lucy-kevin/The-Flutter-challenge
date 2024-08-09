@@ -1,6 +1,6 @@
 
 
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/route.dart';
 import 'package:mynotes/enums/menu_action.dart';
@@ -83,13 +83,16 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
               
               
               case ConnectionState.done:
+                
+                
                 return StreamBuilder(
                   stream: _notesService.allNotes, 
                   builder: (context, snapshot){
                     switch(snapshot.connectionState){
                       
                       
-                      case ConnectionState.waiting:
+                      case ConnectionState.waiting:  
+                      case ConnectionState.active:
                        return const Text("Waiting for all notes...");
                       default:
                         return const CircularProgressIndicator();
