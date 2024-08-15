@@ -91,20 +91,7 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
                       case ConnectionState.active:
                        if(snapshot.hasData){
                         final allNotes = snapshot.data as List<DatabaseNote>;
-                        return ListView.builder(
-                          itemCount: allNotes.length,
-                          itemBuilder: (context, index){
-                            final note =allNotes[index];
-                            return ListTile(
-                              title: Text(
-                                note.text,
-                                maxLines: 1,
-                                softWrap: true,
-                                overflow: TextOverflow.ellipsis,
-                                
-                              ),
-                            );
-                          });
+                      
 
                        }else{
                         return const CircularProgressIndicator();
@@ -124,27 +111,4 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
 
     );
   }
-}
-Future<bool> showLogOutDialog(BuildContext context){
-  return showDialog<bool>(
-    context: context, 
-    builder: (context){
-      return AlertDialog(
-        title: const Text("Sign Out"),
-        content: const Text("Are you sure you want to log out?"),
-        actions: [
-          TextButton(
-            onPressed: (){
-              Navigator.of(context).pop(false);
-            }, 
-            child: Text("Cancel"),),
-          TextButton(
-            onPressed: (){
-              Navigator.of(context).pop(true);
-            }, 
-            child: Text("Log Out"),)
-        ],
-      );
-    }
-  ).then((value) => value ?? false);
 }
