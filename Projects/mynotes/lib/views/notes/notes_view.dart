@@ -6,6 +6,8 @@ import 'package:mynotes/constants/route.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_services.dart';
+import 'package:mynotes/utilities/dialog/logOut_dialog.dart';
+import 'package:mynotes/views/notes/notes_list_view.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -82,7 +84,7 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
                 
                 
                 return StreamBuilder(
-                  stream: _notesService.allNotes, 
+                  stream: _notesService.allNotes,
                   builder: (context, snapshot){
                     switch(snapshot.connectionState){
                       
@@ -91,7 +93,13 @@ String get userEmail => AuthService.firbase().currentUser!.email!;
                       case ConnectionState.active:
                        if(snapshot.hasData){
                         final allNotes = snapshot.data as List<DatabaseNote>;
-                      
+                        return NotesListView(
+                          notes: allNotes, 
+                          onDeleteNote: (note)async{
+                            await _notesService.deleteNote(id: note.id);
+
+                          },
+                          );
 
                        }else{
                         return const CircularProgressIndicator();
