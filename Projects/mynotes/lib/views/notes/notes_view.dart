@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/route.dart';
 import 'package:mynotes/enums/menu_action.dart';
@@ -17,106 +14,86 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-late final NotesService _notesService;
-String get userEmail => AuthService.firbase().currentUser!.email!;
+  late final NotesService _notesService;
+  String get userEmail => AuthService.firbase().currentUser!.email!;
 
-@override
+  @override
   void initState() {
-   _notesService =NotesService();
-    
+    _notesService = NotesService();
+
     super.initState();
   }
- 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Your Notes"),
-        backgroundColor: Color.fromARGB(255, 102, 126, 45),
-        foregroundColor: Colors.white,
-        
-        actions: [
-          IconButton(
-            onPressed: (){
-              Navigator.of(context).pushNamed(newNoteRoute);
-            }, 
-            icon: const Icon(Icons.add)
-            ),
-          PopupMenuButton<MenuAction>(
-            onSelected: (value) async{
-              switch(value){
-                
+        appBar: AppBar(
+          title: const Text("Your Notes"),
+          backgroundColor: Color.fromARGB(255, 102, 126, 45),
+          foregroundColor: Colors.white,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(createUpdateNotesRoute);
+                },
+                icon: const Icon(Icons.add)),
+            PopupMenuButton<MenuAction>(onSelected: (value) async {
+              switch (value) {
                 case MenuAction.logout:
                   final shouldLogout = await showLogOutDialog(context);
-                  if(shouldLogout){
+                  if (shouldLogout) {
                     await AuthService.firbase().logOut();
-                   
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      loginRoute,
-                      (_)=> false
-                      );
-                  }
 
-             
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil(loginRoute, (_) => false);
+                  }
               }
-
-             
-            },
-          itemBuilder: (context) {
-            return const [
-              PopupMenuItem(
-                value: MenuAction.logout, 
-                child:  Text("Log Out"),
+            }, itemBuilder: (context) {
+              return const [
+                PopupMenuItem(
+                  value: MenuAction.logout,
+                  child: Text("Log Out"),
                 )
-                ];
-          }),
-          
-        ],
-           ),
-      body: FutureBuilder(
-        future: _notesService.getOrCreateUser(email: userEmail), 
-        builder: (context, snapshot){
-              switch(snapshot.connectionState){
-              
-              
-              case ConnectionState.done:
-                
-                
-                return StreamBuilder(
-                  stream: _notesService.allNotes,
-                  builder: (context, snapshot){
-                    switch(snapshot.connectionState){
-                      
-                      
-                      case ConnectionState.waiting:  
-                      case ConnectionState.active:
-                       if(snapshot.hasData){
-                        final allNotes = snapshot.data as List<DatabaseNote>;
-                        return NotesListView(
-                          notes: allNotes, 
-                          onDeleteNote: (note)async{
-                            await _notesService.deleteNote(id: note.id);
-
-                          },
-                          );
-
-                       }else{
-                        return const CircularProgressIndicator();
-                       }
-                      default:
-                        return const CircularProgressIndicator();
-                      
-                    }
-                  }
-                  );
-              default:
-                return const CircularProgressIndicator();
-            }
-          }
-
-      )
-
-    );
+              ];
+            }),
+          ],
+        ),
+        body: FutureBuilder(
+            future: _notesService.getOrCreateUser(email: userEmail),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  return StreamBuilder(
+                      stream: _notesService.allNotes,
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                          case ConnectionState.active:
+                            if (snapshot.hasData) {
+                              final allNotes =
+                                  snapshot.data as List<DatabaseNote>;
+                              return NotesListView(
+                                notes: allNotes,
+                                onDeleteNote: (note) async {
+                                  await _notesService.deleteNote(id: note.id);
+                                },
+                                onTap: (note) {
+                                  Navigator.of(context).pushNamed(
+                                    createUpdateNotesRoute,
+                                    arguments: note,
+                                  );
+                                },
+                              );
+                            } else {
+                              return const CircularProgressIndicator();
+                            }
+                          default:
+                            return const CircularProgressIndicator();
+                        }
+                      });
+                default:
+                  return const CircularProgressIndicator();
+              }
+            }));
   }
 }
