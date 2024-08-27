@@ -66,9 +66,9 @@ class SearchScreen extends StatelessWidget {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.green.shade200,
-                        blurRadius: 5,
-                        spreadRadius: 10,
+                        color: Colors.grey.shade200,
+                        blurRadius: 1,
+                        spreadRadius: 2,
                       )
                     ]),
                 child: const Text("A long text"),
