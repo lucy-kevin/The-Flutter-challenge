@@ -11,6 +11,7 @@ class AppStyles {
   static Color kakiColor = const Color(0xffd2bdb6);
   static Color planeColor = const Color(0xffbfc2df);
   static Color findTicketColor = const Color(0xd91130ce);
+  static Color circleColor = const Color(0xff189999);
   static TextStyle textStyle = TextStyle(
     fontSize: 16,
     color: textColor,
