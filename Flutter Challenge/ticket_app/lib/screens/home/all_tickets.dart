@@ -23,6 +23,7 @@ class AllTickets extends StatelessWidget {
                         child: TicketView(
                           ticket: singleTicket,
                           wholeScreen: true,
+                          isColor: true,
                         ),
                       ))
                   .toList(),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ticket_app/base/res/styles/app_styles.dart';
 
-class AppLayoutBuilder extends StatelessWidget {
+class AppLayoutBuilderWidget extends StatelessWidget {
   final int randomDivider;
   final double width;
+  final bool? isColor;
 
-  const AppLayoutBuilder(
-      {super.key, required this.randomDivider, this.width = 3});
+  const AppLayoutBuilderWidget(
+      {super.key, required this.randomDivider, this.width = 3, this.isColor});
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +22,11 @@ class AppLayoutBuilder extends StatelessWidget {
             (index) => SizedBox(
                   width: width,
                   height: 1,
-                  child: const DecoratedBox(
+                  child: DecoratedBox(
                       decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isColor == null
+                        ? AppStyles.ticketColor
+                        : Colors.grey.shade300,
                   )),
                 )),
       );
