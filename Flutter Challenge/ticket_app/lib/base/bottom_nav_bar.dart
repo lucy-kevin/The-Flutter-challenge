@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ticket_app/screens/home/home_screen.dart';
 import 'package:ticket_app/screens/search/search_screen.dart';
 
-import 'package:ticket_app/screens/tickets/ticket_screen.dart';
+import 'package:ticket_app/screens/tickets/widget/ticket_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
