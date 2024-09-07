@@ -5,6 +5,7 @@ import 'package:ticket_app/base/res/styles/app_styles.dart';
 import 'package:ticket_app/base/utils/app_json.dart';
 import 'package:ticket_app/base/widgets/app_double_text.dart';
 import 'package:ticket_app/base/widgets/ticket_view.dart';
+import 'package:ticket_app/routes/app_routes.dart';
 import 'package:ticket_app/screens/home/widgets/hotel.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -79,7 +80,8 @@ class HomeScreen extends StatelessWidget {
                 AppDoubleText(
                   bigText: 'Upcoming Flights',
                   smallText: 'View all',
-                  func: () => Navigator.pushNamed(context, "/all_tickets"),
+                  func: () =>
+                      Navigator.pushNamed(context, AppRoutes.allTickets),
                 ),
                 const SizedBox(
                   height: 10,
@@ -88,7 +90,15 @@ class HomeScreen extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: ticketList
-                        .map((singleTicket) => TicketView(ticket: singleTicket))
+                        .map((singleTicket) => GestureDetector(
+                            onTap: () {
+                              var index = ticketList.indexOf(singleTicket);
+
+                              Navigator.pushNamed(
+                                  context, AppRoutes.ticketScreen,
+                                  arguments: {"index": index});
+                            },
+                            child: TicketView(ticket: singleTicket)))
                         .toList(),
                   ),
                 ),
@@ -96,12 +106,10 @@ class HomeScreen extends StatelessWidget {
                   height: 10,
                 ),
                 AppDoubleText(
-                  bigText: 'Hotels',
-                  smallText: 'View all',
-                  func: () {
-                    print("Hello there");
-                  },
-                ),
+                    bigText: 'Hotels',
+                    smallText: 'View all',
+                    func: () =>
+                        Navigator.pushNamed(context, AppRoutes.allHotels)),
                 const SizedBox(
                   height: 10,
                 ),
@@ -110,7 +118,14 @@ class HomeScreen extends StatelessWidget {
                   child: Row(
                     children: hotelList
                         .take(2)
-                        .map((singleHotel) => Hotel(hotel: singleHotel))
+                        .map((singleHotel) => GestureDetector(
+                            onTap: () {
+                              var index = hotelList.indexOf(singleHotel);
+                              Navigator.pushNamed(
+                                  context, AppRoutes.hotelDetail,
+                                  arguments: {"index": index});
+                            },
+                            child: Hotel(hotel: singleHotel)))
                         .toList(),
                   ),
                 ),
