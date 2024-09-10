@@ -1,1 +1,0 @@
- F:\\The-Flutter-challenge\\Flutter\ Challenge\\learningriverpod\\.dart_tool\\flutter_build\\e98a39ce4b533fd0a3a9c862ab2f507c\\native_assets.yaml: 
